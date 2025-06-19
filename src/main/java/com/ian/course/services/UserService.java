@@ -2,6 +2,8 @@ package com.ian.course.services;
 
 import com.ian.course.entities.User;
 import com.ian.course.repositories.UserRepository;
+import com.ian.course.services.exceptions.ResourceNotFoundException;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class UserService {
     }
     public User findById(Long id) {
         Optional<User> obj  = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
     public User insert(User obj) {
         return repository.save(obj);
